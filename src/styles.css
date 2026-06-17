@@ -1,0 +1,14 @@
+:root { color-scheme: dark; }
+body { font-family: system-ui, sans-serif; margin: 0; background: #14161a; color: #e6e6e6; }
+#app { padding: 16px; }
+header { display: flex; gap: 12px; align-items: center; }
+table { width: 100%; border-collapse: collapse; margin-top: 12px; }
+th, td { text-align: left; padding: 6px 10px; border-bottom: 1px solid #2a2d33; }
+.totals { display: flex; gap: 18px; margin: 12px 0; font-size: 15px; }
+.pos { color: #4caf50; }
+.neg { color: #ef5350; }
+.muted { color: #888; }
+.charts { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 16px; }
+.forms { display: flex; gap: 16px; margin-top: 16px; flex-wrap: wrap; }
+fieldset { border: 1px solid #2a2d33; border-radius: 8px; }
+button, select, input { background: #21262d; color: #e6e6e6; border: 1px solid #2a2d33; padding: 6px 10px; border-radius: 6px; margin: 2px; }
