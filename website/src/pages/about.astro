@@ -1,0 +1,14 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import DownloadButton from "../components/DownloadButton.astro";
+import { GITHUB_OWNER, GITHUB_REPO } from "../config";
+const title = "About Privacy Coin Tracker";
+const description = "Privacy Coin Tracker is a free, local-first portfolio tracker for privacy coins on Windows. Learn about the project.";
+const repo = `https://github.com/${GITHUB_OWNER}/${GITHUB_REPO}`;
+---
+<BaseLayout title={title} description={description} path="/about">
+  <h1>About</h1>
+  <p>Privacy Coin Tracker is a free Windows app for tracking privacy coins — Zcash, Monero, Dash, Firo and Zano — without giving up your privacy. Your data stays local; there is no account and no cloud.</p>
+  <p>The project lives on <a href={repo} rel="noopener">GitHub</a>.</p>
+  <p><DownloadButton /></p>
+</BaseLayout>

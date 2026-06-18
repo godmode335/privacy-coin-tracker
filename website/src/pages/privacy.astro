@@ -1,0 +1,15 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+const title = "Privacy Policy | Privacy Coin Tracker";
+const description = "Privacy Coin Tracker stores all your data locally and collects nothing. Read our simple privacy policy.";
+---
+<BaseLayout title={title} description={description} path="/privacy">
+  <h1>Privacy Policy</h1>
+  <p>Privacy Coin Tracker is a local-first desktop app. We designed it so there is almost nothing to disclose:</p>
+  <ul>
+    <li><b>Your portfolio data never leaves your PC.</b> Holdings, transactions, and history are stored in a local database on your machine.</li>
+    <li><b>No account, no email, no tracking.</b> The app requires no sign-up and contains no third-party analytics.</li>
+    <li><b>Network use is limited to public prices.</b> The app fetches coin prices from a public API; these requests contain only coin identifiers, never your holdings.</li>
+    <li><b>This website</b> uses privacy-friendly, cookieless analytics only to count visits and page performance.</li>
+  </ul>
+</BaseLayout>
