@@ -1,0 +1,68 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import DownloadButton from "../../components/DownloadButton.astro";
+import { COINS } from "../../data/coins";
+import { coinPageJsonLd, faqJsonLd, breadcrumbJsonLd } from "../../lib/seo";
+
+export function getStaticPaths() {
+  return COINS.map((coin) => ({ params: { coin: coin.id }, props: { coin } }));
+}
+
+const { coin } = Astro.props;
+
+const title = `${coin.name} (${coin.symbol}) Portfolio Tracker — Private & Local`;
+const description = `Track your ${coin.name} (${coin.symbol}) holdings, cost basis and P&L privately on Windows. No account, no cloud. Free download.`;
+
+const faqs = [
+  { q: `How do I track ${coin.name} privately?`, a: coin.trackingNote },
+  { q: `Is the ${coin.name} tracker free?`, a: "Yes — Privacy Coin Tracker is free to download and use." },
+  { q: `Does it upload my ${coin.symbol} holdings?`, a: "No. Your data stays in a local database on your PC; only public prices are fetched." },
+  { q: `What is ${coin.name}'s privacy model?`, a: coin.privacyModel },
+];
+
+const jsonLd = [
+  coinPageJsonLd(coin),
+  faqJsonLd(faqs),
+  breadcrumbJsonLd([
+    { name: "Home", path: "/" },
+    { name: "Coins", path: "/coins" },
+    { name: coin.name, path: `/coins/${coin.id}` },
+  ]),
+];
+---
+<BaseLayout title={title} description={description} path={`/coins/${coin.id}`} jsonLd={jsonLd}>
+  <section class="hero">
+    <span class="eyebrow">{coin.symbol} · Privacy coin</span>
+    <h1>{coin.name} Portfolio Tracker</h1>
+    <p class="lead">{coin.blurb}</p>
+    <p><DownloadButton /></p>
+    <p class="muted">Free · Windows 10/11 · no account</p>
+  </section>
+
+  <section>
+    <h2>How to track {coin.name} privately</h2>
+    <p>{coin.trackingNote}</p>
+    <ul class="checks">
+      <li>Record each {coin.symbol} buy and sell — amount, price, date.</li>
+      <li>See live value, average cost and realized/unrealized P&L.</li>
+      <li>Everything stays local; only public {coin.name} prices are fetched.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Privacy model</h2>
+    <p class="muted">{coin.privacyModel}</p>
+  </section>
+
+  <section>
+    <h2>{coin.name} tracker FAQ</h2>
+    <dl class="faq">
+      {faqs.map((f) => (<><dt>{f.q}</dt><dd class="muted">{f.a}</dd></>))}
+    </dl>
+  </section>
+
+  <section class="hero">
+    <h2>Track {coin.name} the private way</h2>
+    <p><DownloadButton label={`Download free — track ${coin.name}`} /></p>
+  </section>
+</BaseLayout>

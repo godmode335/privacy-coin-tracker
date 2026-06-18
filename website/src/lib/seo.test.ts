@@ -1,7 +1,7 @@
 import { test, expect } from "vitest";
 import {
   downloadUrl, canonical, softwareAppJsonLd, blogPostingJsonLd,
-  faqJsonLd, breadcrumbJsonLd,
+  faqJsonLd, breadcrumbJsonLd, organizationJsonLd, webSiteJsonLd, coinPageJsonLd,
 } from "./seo";
 
 test("downloadUrl points at the stable latest-release asset", () => {
@@ -45,4 +45,25 @@ test("breadcrumbJsonLd numbers positions from 1", () => {
   ]) as any;
   expect(j.itemListElement[0].position).toBe(1);
   expect(j.itemListElement[1].item).toBe("https://privacycointracker.com/blog");
+});
+
+test("organizationJsonLd is an Organization with absolute url and logo", () => {
+  const j = organizationJsonLd() as any;
+  expect(j["@type"]).toBe("Organization");
+  expect(j.url).toBe("https://privacycointracker.com");
+  expect(j.logo).toBe("https://privacycointracker.com/favicon.svg");
+});
+
+test("webSiteJsonLd is a WebSite", () => {
+  const j = webSiteJsonLd() as any;
+  expect(j["@type"]).toBe("WebSite");
+  expect(j.name).toBe("Privacy Coin Tracker");
+});
+
+test("coinPageJsonLd is a per-coin SoftwareApplication with coin url", () => {
+  const j = coinPageJsonLd({ id: "zcash", name: "Zcash" }) as any;
+  expect(j["@type"]).toBe("SoftwareApplication");
+  expect(j.name).toContain("Zcash");
+  expect(j.url).toBe("https://privacycointracker.com/coins/zcash");
+  expect(j.offers.price).toBe("0");
 });

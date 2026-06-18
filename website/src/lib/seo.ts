@@ -60,3 +60,35 @@ export function breadcrumbJsonLd(items: { name: string; path: string }[]): objec
     })),
   };
 }
+
+export function organizationJsonLd(): object {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: PRODUCT_NAME,
+    url: SITE_URL,
+    logo: canonical("/favicon.svg"),
+  };
+}
+
+export function webSiteJsonLd(): object {
+  return {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: PRODUCT_NAME,
+    url: SITE_URL,
+  };
+}
+
+export function coinPageJsonLd(coin: { id: string; name: string }): object {
+  return {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    name: `${coin.name} Portfolio Tracker — ${PRODUCT_NAME}`,
+    applicationCategory: "FinanceApplication",
+    operatingSystem: "Windows 10, Windows 11",
+    offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+    downloadUrl: downloadUrl(),
+    url: canonical(`/coins/${coin.id}`),
+  };
+}

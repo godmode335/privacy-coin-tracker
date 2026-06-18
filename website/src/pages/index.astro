@@ -1,7 +1,8 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import DownloadButton from "../components/DownloadButton.astro";
-import { softwareAppJsonLd, faqJsonLd } from "../lib/seo";
+import { softwareAppJsonLd, faqJsonLd, organizationJsonLd, webSiteJsonLd } from "../lib/seo";
+import { COINS } from "../data/coins";
 
 const title = "Privacy Coin Tracker — Offline Crypto Portfolio Tracker for Windows";
 const description =
@@ -24,7 +25,7 @@ const faqs = [
   { q: "Which OS does it run on?", a: "Windows 10 and Windows 11 (64-bit)." },
 ];
 ---
-<BaseLayout title={title} description={description} path="/" jsonLd={[softwareAppJsonLd(), faqJsonLd(faqs)]}>
+<BaseLayout title={title} description={description} path="/" jsonLd={[organizationJsonLd(), webSiteJsonLd(), softwareAppJsonLd(), faqJsonLd(faqs)]}>
   <section class="hero">
     <h1>Track privacy coins without giving up your privacy</h1>
     <p class="muted">A local-first Windows portfolio tracker for Zcash, Monero and other privacy coins. No account. No cloud. Your data stays on your PC.</p>
@@ -37,6 +38,18 @@ const faqs = [
     <div class="features">
       {features.map((f) => (
         <div class="card"><h3>{f.h}</h3><p class="muted">{f.p}</p></div>
+      ))}
+    </div>
+  </section>
+
+  <section>
+    <h2>Track your privacy coins</h2>
+    <div class="features">
+      {COINS.map((c) => (
+        <a class="card coin-card" href={`/coins/${c.id}`}>
+          <h3>{c.name} <span class="muted">{c.symbol}</span></h3>
+          <p class="muted">{c.name} portfolio tracker →</p>
+        </a>
       ))}
     </div>
   </section>

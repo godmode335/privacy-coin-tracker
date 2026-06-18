@@ -1,0 +1,24 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { COINS } from "../../data/coins";
+import { breadcrumbJsonLd } from "../../lib/seo";
+
+const title = "Supported Privacy Coins — Zcash, Monero, Dash, Firo, Zano";
+const description = "Track Zcash, Monero, Dash, Firo and Zano privately on Windows. Pick your coin to learn how local-first tracking works.";
+const jsonLd = breadcrumbJsonLd([
+  { name: "Home", path: "/" },
+  { name: "Coins", path: "/coins" },
+]);
+---
+<BaseLayout title={title} description={description} path="/coins" jsonLd={jsonLd}>
+  <h1>Supported privacy coins</h1>
+  <p class="lead">Privacy Coin Tracker focuses on coins built for confidentiality. Pick one to see how to track it privately.</p>
+  <div class="features">
+    {COINS.map((c) => (
+      <a class="card coin-card" href={`/coins/${c.id}`}>
+        <h3>{c.name} <span class="muted">{c.symbol}</span></h3>
+        <p class="muted">{c.privacyModel}</p>
+      </a>
+    ))}
+  </div>
+</BaseLayout>
