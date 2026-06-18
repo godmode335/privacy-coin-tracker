@@ -7,9 +7,9 @@ import "../styles/global.css";
 
 interface Props {
   title: string; description: string; path: string;
-  jsonLd?: object | object[]; ogImage?: string;
+  jsonLd?: object | object[]; ogImage?: string; ogType?: string;
 }
-const { title, description, path, jsonLd, ogImage = "/favicon.svg" } = Astro.props;
+const { title, description, path, jsonLd, ogImage = "/favicon.svg", ogType = "website" } = Astro.props;
 const url = canonical(path);
 const blocks = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
 ---
@@ -22,7 +22,7 @@ const blocks = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
     <meta name="description" content={description} />
     <link rel="canonical" href={url} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content={ogType} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={url} />
@@ -31,6 +31,7 @@ const blocks = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={canonical(ogImage)} />
     {blocks.map((b) => (
       <script type="application/ld+json" set:html={JSON.stringify(b)} />
     ))}

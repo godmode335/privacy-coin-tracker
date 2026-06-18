@@ -4,7 +4,7 @@ interface Props { label?: string }
 const { label = "Download for Windows" } = Astro.props;
 const href = downloadUrl();
 ---
-<a class="download-btn" href={href} rel="noopener" data-testid="download">
+<a class="download-btn" href={href} rel="noopener" download data-testid="download">
   {label}
   <span class="dl-sub">Free · Windows 10/11 · no account</span>
 </a>

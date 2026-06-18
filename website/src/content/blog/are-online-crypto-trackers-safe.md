@@ -3,6 +3,7 @@ title: "Are Online Crypto Portfolio Trackers Safe?"
 description: "The privacy and security risks of cloud crypto portfolio trackers — and a local-first alternative that keeps your holdings on your own PC."
 keywords: ["are crypto trackers safe", "crypto portfolio tracker privacy", "secure crypto tracker"]
 date: 2026-06-18
+draft: false
 ---
 
 Cloud portfolio trackers are convenient, but they ask for a lot: an account, sometimes your wallet addresses, and occasionally read-only exchange API keys. That convenience carries real risk.

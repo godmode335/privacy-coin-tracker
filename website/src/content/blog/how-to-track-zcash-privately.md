@@ -3,6 +3,7 @@ title: "How to Track Your Zcash Holdings Privately"
 description: "A step-by-step guide to tracking Zcash (ZEC) holdings and profit/loss without handing your data to a cloud service."
 keywords: ["track zcash", "zcash portfolio tracker", "zcash holdings"]
 date: 2026-06-18
+draft: false
 ---
 
 If you hold Zcash for privacy, using a cloud portfolio tracker that wants your email and your wallet addresses is a step backwards. Here is how to track ZEC while staying private.

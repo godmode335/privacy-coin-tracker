@@ -17,7 +17,7 @@ const jsonLd = [
   breadcrumbJsonLd([{ name: "Home", path: "/" }, { name: "Blog", path: "/blog" }, { name: post.data.title, path: `/blog/${post.id}` }]),
 ];
 ---
-<BaseLayout title={`${post.data.title} | Privacy Coin Tracker`} description={post.data.description} path={`/blog/${post.id}`} jsonLd={jsonLd}>
+<BaseLayout title={`${post.data.title} | Privacy Coin Tracker`} description={post.data.description} path={`/blog/${post.id}`} jsonLd={jsonLd} ogType="article" ogImage={post.data.ogImage}>
   <article>
     <h1>{post.data.title}</h1>
     <p class="muted">{post.data.date.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })}</p>

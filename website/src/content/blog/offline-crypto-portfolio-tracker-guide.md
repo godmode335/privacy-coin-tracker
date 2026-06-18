@@ -3,6 +3,7 @@ title: "Offline Crypto Portfolio Tracker: A Local-First Guide"
 description: "What an offline, local-first crypto portfolio tracker is, why it matters for privacy, and how to set one up on Windows for free."
 keywords: ["offline crypto portfolio tracker", "local crypto tracker", "no account crypto tracker"]
 date: 2026-06-18
+draft: false
 ---
 
 An "offline" or local-first crypto portfolio tracker stores your data on your own device instead of a company's servers. For privacy-minded holders, it is the obvious choice.
