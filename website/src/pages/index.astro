@@ -27,10 +27,21 @@ const faqs = [
 ---
 <BaseLayout title={title} description={description} path="/" jsonLd={[organizationJsonLd(), webSiteJsonLd(), softwareAppJsonLd(), faqJsonLd(faqs)]}>
   <section class="hero">
+    <span class="eyebrow">Local-first · Open source</span>
     <h1>Track privacy coins without giving up your privacy</h1>
-    <p class="muted">A local-first Windows portfolio tracker for Zcash, Monero and other privacy coins. No account. No cloud. Your data stays on your PC.</p>
+    <p class="lead">A local-first Windows portfolio tracker for Zcash, Monero, Dash, Firo and Zano. No account. No cloud. Your data stays on your PC.</p>
     <p><DownloadButton /></p>
-    <p class="muted">Free · Windows 10/11 · ~3 MB</p>
+    <div class="trust">
+      <span>No account</span>
+      <span>100% local</span>
+      <span>Open source</span>
+      <span>~3 MB · Windows 10/11</span>
+    </div>
+    <figure class="shot">
+      <img src="/screenshots/dashboard.png" width="1393" height="720"
+        alt="Privacy Coin Tracker dashboard: privacy coin holdings with value, profit and loss, and a portfolio value chart"
+        loading="eager" decoding="async" />
+    </figure>
   </section>
 
   <section>
