@@ -33,10 +33,12 @@ pub fn compute_holdings(txs: &[Transaction]) -> Vec<Holding> {
                 h.quantity = new_qty;
             }
             TxType::Sell => {
-                h.realized_pnl_usd += (t.price_usd - h.avg_cost_usd) * t.quantity - t.fee_usd;
-                h.quantity -= t.quantity;
-                if h.quantity < Decimal::ZERO {
+                let sell_qty = t.quantity.min(h.quantity);
+                h.realized_pnl_usd += (t.price_usd - h.avg_cost_usd) * sell_qty - t.fee_usd;
+                h.quantity -= sell_qty;
+                if h.quantity <= Decimal::ZERO {
                     h.quantity = Decimal::ZERO;
+                    h.avg_cost_usd = Decimal::ZERO;
                 }
             }
         }
@@ -152,6 +154,15 @@ mod tests {
         assert_eq!(h[0].quantity, d("1"));
         assert_eq!(h[0].avg_cost_usd, d("100"));
         assert_eq!(h[0].realized_pnl_usd, d("80"));
+    }
+
+    #[test]
+    fn sell_more_than_held_caps_at_holdings() {
+        let txs = [buy("zcash", "2", "100", 1), sell("zcash", "5", "150", 2)];
+        let h = compute_holdings(&txs);
+        assert_eq!(h[0].quantity, d("0"));
+        assert_eq!(h[0].avg_cost_usd, d("0"));
+        assert_eq!(h[0].realized_pnl_usd, d("100"));
     }
 
     #[test]

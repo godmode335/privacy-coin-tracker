@@ -9,7 +9,7 @@ interface Props {
   title: string; description: string; path: string;
   jsonLd?: object | object[]; ogImage?: string; ogType?: string;
 }
-const { title, description, path, jsonLd, ogImage = "/favicon.svg", ogType = "website" } = Astro.props;
+const { title, description, path, jsonLd, ogImage = "/og-default.png", ogType = "website" } = Astro.props;
 const url = canonical(path);
 const blocks = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
 ---

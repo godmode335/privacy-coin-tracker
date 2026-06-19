@@ -19,6 +19,8 @@ export function softwareAppJsonLd(): object {
     operatingSystem: "Windows 10, Windows 11",
     offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
     downloadUrl: downloadUrl(),
+    screenshot: canonical("/screenshots/dashboard.png"),
+    image: canonical("/og-default.png"),
   };
 }
 
@@ -33,6 +35,7 @@ export function blogPostingJsonLd(a: {
     datePublished: a.date,
     url: canonical(`/blog/${a.slug}`),
     author: { "@type": "Organization", name: PRODUCT_NAME },
+    image: canonical("/og-default.png"),
   };
 }
 
