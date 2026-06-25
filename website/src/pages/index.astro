@@ -1,0 +1,79 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import DownloadButton from "../components/DownloadButton.astro";
+import { softwareAppJsonLd, faqJsonLd, organizationJsonLd, webSiteJsonLd } from "../lib/seo";
+import { COINS } from "../data/coins";
+
+const title = "Privacy Coin Tracker — Offline Crypto Portfolio Tracker for Windows";
+const description =
+  "Track Zcash, Monero and other privacy coins on Windows. 100% local, no account, no cloud. Free download.";
+
+const features = [
+  { h: "Privacy by design", p: "Your holdings never leave your PC. Only public price requests go out." },
+  { h: "Privacy coins focus", p: "Zcash, Monero, Dash, Firo and Zano — curated, not buried in 10,000 tokens." },
+  { h: "Real P&L", p: "Transaction-based cost basis with realized and unrealized profit/loss." },
+  { h: "Charts & portfolios", p: "Portfolio value history and per-coin price charts. Multiple portfolios." },
+  { h: "No account", p: "No sign-up, no email, no KYC. Open it and start tracking." },
+  { h: "Free & lightweight", p: "~3 MB installer. Windows 10/11. WebView2 already included." },
+];
+
+const faqs = [
+  { q: "Is Privacy Coin Tracker free?", a: "Yes, it is completely free to download and use." },
+  { q: "Does it send my portfolio anywhere?", a: "No. All data stays in a local database on your PC. Only public coin prices are fetched." },
+  { q: "Which coins are supported?", a: "Privacy coins: Zcash, Monero, Dash, Firo and Zano." },
+  { q: "Do I need an account?", a: "No account, email or KYC is required." },
+  { q: "Which OS does it run on?", a: "Windows 10 and Windows 11 (64-bit)." },
+];
+---
+<BaseLayout title={title} description={description} path="/" jsonLd={[organizationJsonLd(), webSiteJsonLd(), softwareAppJsonLd(), faqJsonLd(faqs)]}>
+  <section class="hero">
+    <span class="eyebrow">Local-first · Open source</span>
+    <h1>Track privacy coins without giving up your privacy</h1>
+    <p class="lead">A local-first Windows portfolio tracker for Zcash, Monero, Dash, Firo and Zano. No account. No cloud. Your data stays on your PC.</p>
+    <p><DownloadButton /></p>
+    <div class="trust">
+      <span>No account</span>
+      <span>100% local</span>
+      <span>Open source</span>
+      <span>~3 MB · Windows 10/11</span>
+    </div>
+    <figure class="shot">
+      <img src="/screenshots/dashboard.png" width="1393" height="720"
+        alt="Privacy Coin Tracker dashboard: privacy coin holdings with value, profit and loss, and a portfolio value chart"
+        loading="eager" decoding="async" />
+    </figure>
+  </section>
+
+  <section>
+    <h2>Why Privacy Coin Tracker</h2>
+    <div class="features">
+      {features.map((f) => (
+        <div class="card"><h3>{f.h}</h3><p class="muted">{f.p}</p></div>
+      ))}
+    </div>
+  </section>
+
+  <section>
+    <h2>Track your privacy coins</h2>
+    <div class="features">
+      {COINS.map((c) => (
+        <a class="card coin-card" href={`/coins/${c.id}`}>
+          <h3>{c.name} <span class="muted">{c.symbol}</span></h3>
+          <p class="muted">{c.name} portfolio tracker →</p>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <section>
+    <h2>Frequently asked questions</h2>
+    <dl class="faq">
+      {faqs.map((f) => (<><dt>{f.q}</dt><dd class="muted">{f.a}</dd></>))}
+    </dl>
+  </section>
+
+  <section class="hero">
+    <h2>Start tracking privately</h2>
+    <p><DownloadButton label="Download free for Windows" /></p>
+  </section>
+</BaseLayout>

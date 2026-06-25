@@ -1,0 +1,23 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import DownloadButton from "../components/DownloadButton.astro";
+import { softwareAppJsonLd } from "../lib/seo";
+
+const title = "Download Privacy Coin Tracker for Windows (Free)";
+const description = "Download the free Privacy Coin Tracker installer for Windows 10/11. Local-first, no account, ~3 MB.";
+---
+<BaseLayout title={title} description={description} path="/download" jsonLd={softwareAppJsonLd()}>
+  <section class="hero">
+    <h1>Download Privacy Coin Tracker</h1>
+    <p><DownloadButton /></p>
+    <p class="muted">Latest release · Windows 10/11 (64-bit) · ~3 MB · WebView2 included in Windows</p>
+  </section>
+  <section>
+    <h2>Install notes</h2>
+    <ul class="muted">
+      <li>The installer is not code-signed yet, so Windows SmartScreen may warn you. Click <b>More info → Run anyway</b>.</li>
+      <li>Your data is stored locally and never uploaded.</li>
+      <li>Prefer a portable build or want to read the code? See the <a href="/about">project page</a>.</li>
+    </ul>
+  </section>
+</BaseLayout>

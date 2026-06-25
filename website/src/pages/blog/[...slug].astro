@@ -1,0 +1,31 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import DownloadButton from "../../components/DownloadButton.astro";
+import { getCollection, render } from "astro:content";
+import { blogPostingJsonLd, breadcrumbJsonLd } from "../../lib/seo";
+
+export async function getStaticPaths() {
+  const posts = await getCollection("blog", ({ data }) => !data.draft);
+  return posts.map((post) => ({ params: { slug: post.id }, props: { post } }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+const iso = post.data.date.toISOString().slice(0, 10);
+const jsonLd = [
+  blogPostingJsonLd({ title: post.data.title, description: post.data.description, date: iso, slug: post.id }),
+  breadcrumbJsonLd([{ name: "Home", path: "/" }, { name: "Blog", path: "/blog" }, { name: post.data.title, path: `/blog/${post.id}` }]),
+];
+---
+<BaseLayout title={`${post.data.title} | Privacy Coin Tracker`} description={post.data.description} path={`/blog/${post.id}`} jsonLd={jsonLd} ogType="article" ogImage={post.data.ogImage}>
+  <article>
+    <h1>{post.data.title}</h1>
+    <p class="muted">{post.data.date.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })}</p>
+    <Content />
+    <hr />
+    <section class="hero">
+      <h2>Track your privacy coins locally</h2>
+      <p><DownloadButton /></p>
+    </section>
+  </article>
+</BaseLayout>
