@@ -15,7 +15,7 @@ const jsonLd = breadcrumbJsonLd([
   <p class="lead">Privacy Coin Tracker focuses on coins built for confidentiality. Pick one to see how to track it privately.</p>
   <div class="features">
     {COINS.map((c) => (
-      <a class="card coin-card" href={`/coins/${c.id}`}>
+      <a class="card coin-card" href={`/coins/${c.id}/`}>
         <h3>{c.name} <span class="muted">{c.symbol}</span></h3>
         <p class="muted">{c.privacyModel}</p>
       </a>

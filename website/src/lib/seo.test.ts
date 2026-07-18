@@ -10,10 +10,20 @@ test("downloadUrl points at the stable latest-release asset", () => {
   );
 });
 
-test("canonical builds absolute URLs from a path", () => {
+test("canonical builds absolute trailing-slash URLs from a page path", () => {
   expect(canonical("/blog/zcash-vs-monero")).toBe(
-    "https://privacycointracker.com/blog/zcash-vs-monero"
+    "https://privacycointracker.com/blog/zcash-vs-monero/"
   );
+});
+
+test("canonical leaves asset paths (with extension) untouched", () => {
+  expect(canonical("/og-default.png")).toBe(
+    "https://privacycointracker.com/og-default.png"
+  );
+});
+
+test("canonical keeps the site root as a single slash", () => {
+  expect(canonical("/")).toBe("https://privacycointracker.com/");
 });
 
 test("softwareAppJsonLd is a free Windows SoftwareApplication", () => {
@@ -29,7 +39,7 @@ test("blogPostingJsonLd carries headline and absolute url", () => {
   }) as any;
   expect(j["@type"]).toBe("BlogPosting");
   expect(j.headline).toBe("Zcash vs Monero");
-  expect(j.url).toBe("https://privacycointracker.com/blog/zcash-vs-monero");
+  expect(j.url).toBe("https://privacycointracker.com/blog/zcash-vs-monero/");
 });
 
 test("faqJsonLd maps items to Question/Answer", () => {
@@ -44,7 +54,7 @@ test("breadcrumbJsonLd numbers positions from 1", () => {
     { name: "Home", path: "/" }, { name: "Blog", path: "/blog" },
   ]) as any;
   expect(j.itemListElement[0].position).toBe(1);
-  expect(j.itemListElement[1].item).toBe("https://privacycointracker.com/blog");
+  expect(j.itemListElement[1].item).toBe("https://privacycointracker.com/blog/");
 });
 
 test("organizationJsonLd is an Organization with absolute url and logo", () => {
@@ -64,6 +74,6 @@ test("coinPageJsonLd is a per-coin SoftwareApplication with coin url", () => {
   const j = coinPageJsonLd({ id: "zcash", name: "Zcash" }) as any;
   expect(j["@type"]).toBe("SoftwareApplication");
   expect(j.name).toContain("Zcash");
-  expect(j.url).toBe("https://privacycointracker.com/coins/zcash");
+  expect(j.url).toBe("https://privacycointracker.com/coins/zcash/");
   expect(j.offers.price).toBe("0");
 });
