@@ -61,6 +61,15 @@ const jsonLd = [
     </dl>
   </section>
 
+  <section>
+    <h2>Other privacy coins to track</h2>
+    <ul class="checks">
+      {COINS.filter((c) => c.id !== coin.id).map((c) => (
+        <li><a href={`/coins/${c.id}/`}>{c.name} ({c.symbol}) portfolio tracker</a> — {c.privacyModel}</li>
+      ))}
+    </ul>
+  </section>
+
   <section class="hero">
     <h2>Track {coin.name} the private way</h2>
     <p><DownloadButton label={`Download free — track ${coin.name}`} /></p>

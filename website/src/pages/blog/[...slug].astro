@@ -3,6 +3,7 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 import DownloadButton from "../../components/DownloadButton.astro";
 import { getCollection, render } from "astro:content";
 import { blogPostingJsonLd, breadcrumbJsonLd } from "../../lib/seo";
+import { COINS } from "../../data/coins";
 
 export async function getStaticPaths() {
   const posts = await getCollection("blog", ({ data }) => !data.draft);
@@ -23,6 +24,14 @@ const jsonLd = [
     <p class="muted">{post.data.date.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })}</p>
     <Content />
     <hr />
+    <section>
+      <h2>Track these privacy coins locally</h2>
+      <ul class="checks">
+        {COINS.map((c) => (
+          <li><a href={`/coins/${c.id}/`}>{c.name} ({c.symbol}) portfolio tracker</a> — {c.privacyModel}</li>
+        ))}
+      </ul>
+    </section>
     <section class="hero">
       <h2>Track your privacy coins locally</h2>
       <p><DownloadButton /></p>
