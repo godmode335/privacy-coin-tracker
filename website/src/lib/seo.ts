@@ -6,8 +6,20 @@ export function downloadUrl(): string {
   return `https://github.com/${GITHUB_OWNER}/${GITHUB_REPO}/releases/latest/download/${DOWNLOAD_ASSET}`;
 }
 
+// Normalize a page path to the canonical trailing-slash form so that
+// <link rel="canonical">, og:url, the sitemap and internal links all agree.
+// Asset paths (with a file extension, e.g. /og-default.png) are left untouched.
+export function withTrailingSlash(path: string): string {
+  if (path === "/") return path;
+  const [pathname, query] = path.split("?");
+  const lastSegment = pathname.split("/").pop() ?? "";
+  if (lastSegment.includes(".")) return path; // asset, keep as-is
+  const normalized = pathname.endsWith("/") ? pathname : `${pathname}/`;
+  return query ? `${normalized}?${query}` : normalized;
+}
+
 export function canonical(path: string): string {
-  return new URL(path, SITE_URL).href;
+  return new URL(withTrailingSlash(path), SITE_URL).href;
 }
 
 export function softwareAppJsonLd(): object {
