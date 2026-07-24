@@ -5,18 +5,18 @@ import DownloadButtons from "../components/DownloadButtons.astro";
 import { softwareAppJsonLd } from "../lib/seo";
 
 const title = "Download Privacy Coin Tracker for Windows & Linux (Free)";
-const description = "Download the free Privacy Coin Tracker for Windows 10/11 or Linux (AppImage, .deb). Local-first, no account, ~3 MB.";
+const description = "Download the free Privacy Coin Tracker for Windows 10/11 or Linux (AppImage, .deb). Local-first, no account.";
 ---
 <BaseLayout title={title} description={description} path="/download" jsonLd={softwareAppJsonLd()}>
   <section class="hero">
     <h1>Download Privacy Coin Tracker</h1>
     <DownloadButtons />
-    <p class="muted">Latest release · 64-bit · ~3 MB · free, no account</p>
+    <p class="muted">Latest release · 64-bit · free, no account</p>
   </section>
 
   <section>
     <h2>Windows</h2>
-    <p class="muted">Windows 10 or 11, 64-bit. WebView2 is already part of Windows, so there is nothing else to install.</p>
+    <p class="muted">Windows 10 or 11, 64-bit. ~3 MB — WebView2 is already part of Windows, so there is nothing else to install.</p>
     <ul class="muted">
       <li>The installer is not code-signed yet, so SmartScreen may warn you. Click <b>More info → Run anyway</b>.</li>
     </ul>
@@ -26,7 +26,9 @@ const description = "Download the free Privacy Coin Tracker for Windows 10/11 or
     <h2>Linux</h2>
     <p class="muted">
       Two formats, both x86_64. The <b>AppImage</b> is the simplest — one file, no
-      installation, no root. The <b>.deb</b> is the familiar route on Debian and Ubuntu.
+      installation, no root, but ~85 MB because it carries its own WebKitGTK runtime.
+      The <b>.deb</b> is the familiar route on Debian and Ubuntu and much smaller, since
+      it uses the system runtime instead.
     </p>
     <div class="download-row" style="justify-content:flex-start;">
       <DownloadButton platform="linuxAppImage" />
