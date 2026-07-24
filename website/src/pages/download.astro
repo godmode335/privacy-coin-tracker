@@ -1,23 +1,55 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import DownloadButton from "../components/DownloadButton.astro";
+import DownloadButtons from "../components/DownloadButtons.astro";
 import { softwareAppJsonLd } from "../lib/seo";
 
-const title = "Download Privacy Coin Tracker for Windows (Free)";
-const description = "Download the free Privacy Coin Tracker installer for Windows 10/11. Local-first, no account, ~3 MB.";
+const title = "Download Privacy Coin Tracker for Windows & Linux (Free)";
+const description = "Download the free Privacy Coin Tracker for Windows 10/11 or Linux (AppImage, .deb). Local-first, no account, ~3 MB.";
 ---
 <BaseLayout title={title} description={description} path="/download" jsonLd={softwareAppJsonLd()}>
   <section class="hero">
     <h1>Download Privacy Coin Tracker</h1>
-    <p><DownloadButton /></p>
-    <p class="muted">Latest release · Windows 10/11 (64-bit) · ~3 MB · WebView2 included in Windows</p>
+    <DownloadButtons />
+    <p class="muted">Latest release · 64-bit · ~3 MB · free, no account</p>
   </section>
+
   <section>
-    <h2>Install notes</h2>
+    <h2>Windows</h2>
+    <p class="muted">Windows 10 or 11, 64-bit. WebView2 is already part of Windows, so there is nothing else to install.</p>
     <ul class="muted">
-      <li>The installer is not code-signed yet, so Windows SmartScreen may warn you. Click <b>More info → Run anyway</b>.</li>
+      <li>The installer is not code-signed yet, so SmartScreen may warn you. Click <b>More info → Run anyway</b>.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Linux</h2>
+    <p class="muted">
+      Two formats, both x86_64. The <b>AppImage</b> is the simplest — one file, no
+      installation, no root. The <b>.deb</b> is the familiar route on Debian and Ubuntu.
+    </p>
+    <div class="download-row" style="justify-content:flex-start;">
+      <DownloadButton platform="linuxAppImage" />
+      <DownloadButton platform="linuxDeb" variant="secondary" />
+    </div>
+    <h3>AppImage</h3>
+    <p class="muted">Make it executable once, then run it:</p>
+    <pre class="code"><code>chmod +x PrivacyCoinTracker-x86_64.AppImage
+./PrivacyCoinTracker-x86_64.AppImage</code></pre>
+    <h3>.deb (Debian, Ubuntu, Mint)</h3>
+    <pre class="code"><code>sudo apt install ./PrivacyCoinTracker-amd64.deb</code></pre>
+    <ul class="muted">
+      <li>Built on Ubuntu 22.04, so it runs on 22.04 and anything newer.</li>
+      <li>Needs a WebKitGTK runtime (<code>libwebkit2gtk-4.1-0</code>); the .deb pulls it in automatically, and most desktop installs already have it.</li>
+      <li>Wayland and X11 both work.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Either platform</h2>
+    <ul class="muted">
       <li>Your data is stored locally and never uploaded.</li>
-      <li>Prefer a portable build or want to read the code? See the <a href="/about/">project page</a>.</li>
+      <li>Want to read the code first? See the <a href="/about/">project page</a>.</li>
     </ul>
   </section>
 </BaseLayout>

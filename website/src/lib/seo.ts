@@ -1,9 +1,13 @@
 import {
-  PRODUCT_NAME, SITE_URL, GITHUB_OWNER, GITHUB_REPO, DOWNLOAD_ASSET,
+  PRODUCT_NAME, SITE_URL, GITHUB_OWNER, GITHUB_REPO,
+  DOWNLOAD_ASSETS, SUPPORTED_OS, type DownloadPlatform,
 } from "../config";
 
-export function downloadUrl(): string {
-  return `https://github.com/${GITHUB_OWNER}/${GITHUB_REPO}/releases/latest/download/${DOWNLOAD_ASSET}`;
+// `releases/latest/download/...` always resolves to the newest release, so
+// publishing a new version never requires touching the site.
+export function downloadUrl(platform: DownloadPlatform = "windows"): string {
+  const asset = DOWNLOAD_ASSETS[platform];
+  return `https://github.com/${GITHUB_OWNER}/${GITHUB_REPO}/releases/latest/download/${asset}`;
 }
 
 // Normalize a page path to the canonical trailing-slash form so that
@@ -28,7 +32,7 @@ export function softwareAppJsonLd(): object {
     "@type": "SoftwareApplication",
     name: PRODUCT_NAME,
     applicationCategory: "FinanceApplication",
-    operatingSystem: "Windows 10, Windows 11",
+    operatingSystem: SUPPORTED_OS,
     offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
     downloadUrl: downloadUrl(),
     screenshot: canonical("/screenshots/dashboard.png"),
@@ -101,7 +105,7 @@ export function coinPageJsonLd(coin: { id: string; name: string }): object {
     "@type": "SoftwareApplication",
     name: `${coin.name} Portfolio Tracker — ${PRODUCT_NAME}`,
     applicationCategory: "FinanceApplication",
-    operatingSystem: "Windows 10, Windows 11",
+    operatingSystem: SUPPORTED_OS,
     offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
     downloadUrl: downloadUrl(),
     url: canonical(`/coins/${coin.id}`),

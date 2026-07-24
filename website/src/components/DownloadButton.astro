@@ -1,10 +1,32 @@
 ---
 import { downloadUrl } from "../lib/seo";
-interface Props { label?: string }
-const { label = "Download for Windows" } = Astro.props;
-const href = downloadUrl();
+import type { DownloadPlatform } from "../config";
+
+interface Props {
+  platform?: DownloadPlatform;
+  label?: string;
+  sub?: string;
+  /** Secondary styling — used for the non-primary platform in a pair. */
+  variant?: "primary" | "secondary";
+}
+
+const DEFAULTS: Record<DownloadPlatform, { label: string; sub: string }> = {
+  windows: { label: "Download for Windows", sub: "Free · Windows 10/11 · no account" },
+  linuxAppImage: { label: "Download for Linux", sub: "Free · AppImage · no account" },
+  linuxDeb: { label: "Download .deb", sub: "Debian · Ubuntu" },
+};
+
+const { platform = "windows", label, sub, variant = "primary" } = Astro.props;
+const defaults = DEFAULTS[platform];
+const href = downloadUrl(platform);
 ---
-<a class="download-btn" href={href} rel="noopener" download data-testid="download">
-  {label}
-  <span class="dl-sub">Free · Windows 10/11 · no account</span>
+<a
+  class:list={["download-btn", variant === "secondary" && "download-btn--secondary"]}
+  href={href}
+  rel="noopener"
+  download
+  data-testid={`download-${platform}`}
+>
+  {label ?? defaults.label}
+  <span class="dl-sub">{sub ?? defaults.sub}</span>
 </a>

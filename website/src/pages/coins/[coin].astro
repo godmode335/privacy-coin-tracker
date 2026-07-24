@@ -1,6 +1,6 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import DownloadButton from "../../components/DownloadButton.astro";
+import DownloadButtons from "../../components/DownloadButtons.astro";
 import { COINS } from "../../data/coins";
 import { coinPageJsonLd, faqJsonLd, breadcrumbJsonLd } from "../../lib/seo";
 
@@ -11,7 +11,7 @@ export function getStaticPaths() {
 const { coin } = Astro.props;
 
 const title = `${coin.name} (${coin.symbol}) Portfolio Tracker — Private & Local`;
-const description = `Track your ${coin.name} (${coin.symbol}) holdings, cost basis and P&L privately on Windows. No account, no cloud. Free download.`;
+const description = `Track your ${coin.name} (${coin.symbol}) holdings, cost basis and P&L privately on Windows or Linux. No account, no cloud. Free download.`;
 
 const faqs = [
   { q: `How do I track ${coin.name} privately?`, a: coin.trackingNote },
@@ -35,8 +35,8 @@ const jsonLd = [
     <span class="eyebrow">{coin.symbol} · Privacy coin</span>
     <h1>{coin.name} Portfolio Tracker</h1>
     <p class="lead">{coin.blurb}</p>
-    <p><DownloadButton /></p>
-    <p class="muted">Free · Windows 10/11 · no account</p>
+    <DownloadButtons />
+    <p class="muted">Free · Windows 10/11 &amp; Linux · no account</p>
   </section>
 
   <section>
@@ -72,6 +72,6 @@ const jsonLd = [
 
   <section class="hero">
     <h2>Track {coin.name} the private way</h2>
-    <p><DownloadButton label={`Download free — track ${coin.name}`} /></p>
+    <DownloadButtons windowsLabel={`Download free — track ${coin.name}`} />
   </section>
 </BaseLayout>

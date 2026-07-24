@@ -71,6 +71,22 @@ section { margin: 56px 0; }
 .download-btn:active { transform: translateY(0) scale(.99); }
 .download-btn .dl-sub { font-weight: 600; font-size: .8rem; opacity: .82; margin-top: 3px; }
 
+/* Windows + Linux side by side. Centred on the hero (which is text-centred),
+   left-aligned everywhere else via the parent's text-align. */
+.download-row { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; align-items: stretch; margin: 18px 0 26px; }
+.download-row .download-btn { justify-content: center; }
+
+/* The second platform is deliberately quieter: same size and hit area, but it
+   reads as an alternative rather than competing with the primary call. */
+.download-btn--secondary {
+  background: var(--surface-2);
+  color: var(--fg);
+  border: 1px solid var(--accent);
+  box-shadow: none;
+}
+.download-btn--secondary:hover { background: var(--surface); border-color: var(--accent-strong); }
+.download-btn--secondary .dl-sub { opacity: .7; }
+
 a:focus-visible, .download-btn:focus-visible, .card:focus-visible {
   outline: 3px solid var(--accent); outline-offset: 3px; border-radius: 8px;
 }
@@ -103,6 +119,19 @@ a.coin-card h3 .muted { font-weight: 500; font-size: .85em; }
 .checks li { position: relative; padding-left: 30px; }
 .checks li::before { content: ""; position: absolute; left: 0; top: .45em; width: 16px; height: 16px; border-radius: 50%; background: rgba(61, 220, 132, .15); border: 1px solid var(--accent); }
 .checks li::after { content: ""; position: absolute; left: 5px; top: .62em; width: 5px; height: 9px; border: solid var(--accent); border-width: 0 2px 2px 0; transform: rotate(45deg); }
+
+/* shell snippets on the download page */
+.code {
+  background: var(--bg-2); border: 1px solid var(--line); border-radius: var(--radius-sm);
+  padding: 14px 16px; overflow-x: auto; font-size: .88rem; line-height: 1.5;
+  max-width: 60ch;
+}
+.code code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; color: var(--fg); }
+:not(.code) > code {
+  background: var(--surface-2); border: 1px solid var(--line); border-radius: 5px;
+  padding: 1px 5px; font-size: .9em;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
 
 /* FAQ */
 .faq dt { font-weight: 700; margin-top: 18px; }

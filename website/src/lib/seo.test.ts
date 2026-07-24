@@ -3,11 +3,34 @@ import {
   downloadUrl, canonical, softwareAppJsonLd, blogPostingJsonLd,
   faqJsonLd, breadcrumbJsonLd, organizationJsonLd, webSiteJsonLd, coinPageJsonLd,
 } from "./seo";
+import { DOWNLOAD_ASSETS } from "../config";
 
-test("downloadUrl points at the stable latest-release asset", () => {
-  expect(downloadUrl()).toBe(
-    "https://github.com/godmode335/privacy-coin-tracker/releases/latest/download/PrivacyCoinTracker-Setup.exe"
-  );
+const RELEASES =
+  "https://github.com/godmode335/privacy-coin-tracker/releases/latest/download";
+
+test("downloadUrl defaults to the Windows installer", () => {
+  expect(downloadUrl()).toBe(`${RELEASES}/PrivacyCoinTracker-Setup.exe`);
+});
+
+test("downloadUrl resolves each Linux asset", () => {
+  expect(downloadUrl("linuxAppImage")).toBe(`${RELEASES}/PrivacyCoinTracker-x86_64.AppImage`);
+  expect(downloadUrl("linuxDeb")).toBe(`${RELEASES}/PrivacyCoinTracker-amd64.deb`);
+});
+
+// The workflow copies bundles to these exact names; if the two ever drift the
+// download buttons 404 while the site still builds and the tests still pass.
+test("asset names match the ones release.yml publishes", () => {
+  expect(Object.values(DOWNLOAD_ASSETS).sort()).toEqual([
+    "PrivacyCoinTracker-Setup.exe",
+    "PrivacyCoinTracker-amd64.deb",
+    "PrivacyCoinTracker-x86_64.AppImage",
+  ].sort());
+});
+
+test("softwareAppJsonLd advertises Linux alongside Windows", () => {
+  const j = softwareAppJsonLd() as any;
+  expect(j.operatingSystem).toContain("Windows");
+  expect(j.operatingSystem).toContain("Linux");
 });
 
 test("canonical builds absolute trailing-slash URLs from a page path", () => {

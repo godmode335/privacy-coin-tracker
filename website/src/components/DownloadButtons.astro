@@ -1,0 +1,15 @@
+---
+// Windows and Linux side by side. No OS sniffing on purpose — the site ships
+// zero JavaScript, and a wrong guess hides the only working download.
+import DownloadButton from "./DownloadButton.astro";
+
+interface Props {
+  windowsLabel?: string;
+  linuxLabel?: string;
+}
+const { windowsLabel, linuxLabel } = Astro.props;
+---
+<div class="download-row">
+  <DownloadButton platform="windows" label={windowsLabel} />
+  <DownloadButton platform="linuxAppImage" label={linuxLabel} variant="secondary" />
+</div>
