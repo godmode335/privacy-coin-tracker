@@ -1,0 +1,122 @@
+name: Build release
+
+# Builds the desktop app for Windows and Linux and attaches the installers to a
+# GitHub release under STABLE file names. The websites link to
+# releases/latest/download/<name>, so these names are part of the public
+# contract — renaming one silently breaks a download button.
+#
+# Triggers:
+#   - pushing a v* tag  -> builds and publishes the release
+#   - manual dispatch   -> builds only (dry run), so the matrix can be verified
+#                          without cutting a release
+
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Build only, do not create a release"
+        type: boolean
+        default: true
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          # Built on the oldest supported LTS on purpose: glibc is forward- but
+          # not backward-compatible, so binaries linked against ubuntu-latest's
+          # newer glibc refuse to start on 22.04. Building here runs everywhere
+          # from 22.04 upward.
+          - os: ubuntu-22.04
+            platform: linux
+          - os: windows-latest
+            platform: windows
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - uses: dtolnay/rust-toolchain@stable
+
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: src-tauri
+
+      - name: Install Linux build dependencies
+        if: matrix.platform == 'linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            libwebkit2gtk-4.1-dev \
+            libayatana-appindicator3-dev \
+            librsvg2-dev \
+            libxdo-dev \
+            libssl-dev \
+            build-essential \
+            patchelf \
+            file
+
+      - name: Install npm dependencies
+        run: npm ci
+
+      - name: Build the app
+        run: npm run tauri build
+
+      # Tauri names bundles after the product and version ("Privacy Coin
+      # Tracker_0.2.0_amd64.deb"), which would change on every version bump and
+      # break the site's fixed download URLs. Copy to stable names instead.
+      - name: Collect artifacts (Linux)
+        if: matrix.platform == 'linux'
+        run: |
+          set -euo pipefail
+          mkdir -p out
+          cp src-tauri/target/release/bundle/appimage/*.AppImage out/PrivacyCoinTracker-x86_64.AppImage
+          cp src-tauri/target/release/bundle/deb/*.deb          out/PrivacyCoinTracker-amd64.deb
+          chmod +x out/PrivacyCoinTracker-x86_64.AppImage
+          ls -la out
+
+      - name: Collect artifacts (Windows)
+        if: matrix.platform == 'windows'
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p out
+          cp src-tauri/target/release/bundle/nsis/*-setup.exe out/PrivacyCoinTracker-Setup.exe
+          ls -la out
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.platform }}
+          path: out/*
+          if-no-files-found: error
+
+  release:
+    needs: build
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+          merge-multiple: true
+
+      - name: Publish release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          ls -la artifacts
+          gh release create "${GITHUB_REF_NAME}" artifacts/* \
+            --repo "${GITHUB_REPOSITORY}" \
+            --title "Privacy Coin Tracker ${GITHUB_REF_NAME}" \
+            --generate-notes
